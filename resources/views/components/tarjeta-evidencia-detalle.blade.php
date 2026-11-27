@@ -19,7 +19,7 @@
     @endif
 
     <div class="flex gap-3 pt-2">
-        <x-bookme.boton :href="route('evidencias.edit', ['id' => $id])" primario>
+        <x-bookme.boton :href="route('evidencias.edit', ['id' => $id], ['evidencia' => $evidencia])" primario>
             Editar Proyecto
         </x-bookme.boton>
         <x-bookme.boton :href="route('evidencias.index')" >

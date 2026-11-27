@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use App\Enums\EstadoValidacion;
+use App\Http\Requests\ProyectoRequest;
 
 
 class EvidenciaController extends Controller {
@@ -31,13 +32,7 @@ private array $evidencias = [
      'descripcion' => 'Layout con la plantilla del grupo', 'estado_validacion' => 'validada'],
 ];
 
-    public function reglas(): array
-    {
-        return [
-          'evidencias.*.estado_validacion' => ['required', Rule::enum(EstadoValidacion::class)]
-        ];
-    }
-
+   
 
     public function index(): View
     {
@@ -61,6 +56,19 @@ private array $evidencias = [
     {
         abort_unless(isset($this->evidencias[$id]), 404);
 
-        return view('evidencias.edit', ['id' => $id]);
+        return view('evidencias.edit', ['id' => $id, 'evidencia' => $this->evidencias[$id]]);
+    }
+
+    public function store(ProyectoRequest $request){
+        $validos = $request->validated();
+
+        to_route('evidencias.index')->with('mensaje', 'Evidencia con id:' . $validos['tarea_id'] . ' creada correctamente.');
+    }
+
+    public function update(ProyectoRequest $request, int $id){
+
+        $validos = $request->validated();
+
+        to_route('evidencias.index')->with('mensaje', 'Evidencia con id:' . $validos['tarea_id'] . ' actualizada correctamente.');
     }
 }
